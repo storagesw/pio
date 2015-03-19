@@ -15,16 +15,16 @@ Setup
         python -c 'import setuptools'
 
         # if not then
-        wget --no-check-certificate https://bootstrap.pypa.io/ez_setup.py	
+        wget --no-check-certificate https://bootstrap.pypa.io/ez_setup.py    
         python ez_setup.py --insecure
 
 - Setup no password SSH to all slave nodes (in this example they are named 
   node01, node02 and node03):
 
         ssh-keygen -t rsa -N ''
-		for n in node01 node02 node03; do
-			ssh-copy-id -i ~/.ssh/id_rsa.pub $n
-		done
+        for n in node01 node02 node03; do
+            ssh-copy-id -i ~/.ssh/id_rsa.pub $n
+        done
 
 - Install PIO (master node only): 
 
@@ -47,8 +47,8 @@ Setup
 - *OPTIONAL* Installing FSTEST - contact SAP for the following files: fstest, 
     libhdbbasis.so, libhdblttbase.so, libhdbversion.so and run:
         mkdir -p lib/fstest
-		cp fstest lib/fstest/
-		cp libhdb*.so lib/fstest/
+        cp fstest lib/fstest/
+        cp libhdb*.so lib/fstest/
 
 
 Usage
@@ -60,7 +60,7 @@ different block sizes (4k, 16k, 64k, 256k, 1M), all random, where each job is
 run for 60 seconds.
 
     pio perf -t random:read,write:4k,16k,64k,256k,1M -o output_file -l 60 \
-	    fio /mnt/storage node01 node02 node03
+        fio /mnt/storage node01 node02 node03
 
 - "/mnt/storage" is a directory that is accessible on all slave nodes (does not
    have to be shared).
@@ -69,7 +69,7 @@ run for 60 seconds.
 In order to plot the data to a nice graph, run:
 
     pio plot -a .
-	gnuplot plot.gp
+    gnuplot plot.gp
 
 #### Durability Scenario
 Initialize a data file that lays on the evaluated storage system. Mess around
