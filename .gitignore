@@ -1,0 +1,6 @@
+.git
+*.pyc
+pio.egg-info
+lib/*
+build
+dist

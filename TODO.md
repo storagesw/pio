@@ -1,0 +1,12 @@
+TODO
+====
+
+- PIO: make fio/fstest in args dynamic (find drivers by myself).
+- Config: make LIB_PATH not relative.
+- Perf: always make a first "pseudo-run" to generate the files.
+- Drivers: fstest implement validate_limit().
+- Plot: make plot.gp work on out-of-the-box linux distros.
+- Durability: add argument for filesize.
+- Availability: incorporate iostat to the measurement.
+- Unittesting: write a script to test pio.
+
