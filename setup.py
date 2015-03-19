@@ -8,7 +8,7 @@ setup(
     name="pio",
     version=read("VERSION"),
     description='A scale-out IO benchmarking framework',
-    long_description=read("README"),
+    long_description=read("README.md"),
     license='Apache License 2.0',
 
     author='Irad Cohen',

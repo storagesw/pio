@@ -18,9 +18,19 @@ Setup
         wget --no-check-certificate https://bootstrap.pypa.io/ez_setup.py	
         python ez_setup.py --insecure
 
-- Setup no password SSH between participating hosts
+- Setup no password SSH to all slave nodes (in this example they are named 
+  node01, node02 and node03):
 
-- Install FIO
+        ssh-keygen -t rsa -N ''
+		for n in node01 node02 node03; do
+			ssh-copy-id -i ~/.ssh/id_rsa.pub $n
+		done
+
+- Install PIO (master node only): 
+
+        python setup.py install
+
+- Install FIO on all slave nodes:
 
         # setup libAIO
         zypper install libaio libaio-devel          # sles
@@ -35,31 +45,38 @@ Setup
         make install
 
 - *OPTIONAL* Installing FSTEST - contact SAP for the following files: fstest, 
-    libhdbbasis.so, libhdblttbase.so, libhdbversion.so
-
-- Install PIO: 
-
-        python setup.py install
-
-Perf
-----
-    pio perf -h
-
-Plot
-----
-    pio plot -h
-
-Durability
-----------
-    pio dur -h
+    libhdbbasis.so, libhdblttbase.so, libhdbversion.so and run:
+        mkdir -p lib/fstest
+		cp fstest lib/fstest/
+		cp libhdb*.so lib/fstest/
 
 
-Development Mode
-----------------
-    python setup.py develop
+Usage
+-----
+#### Performance Scenario
+For example, a master node coordinates 3 slave nodes (node01, node02 and 
+node03) to run several fio workloads that cover reads and writes, with 
+different block sizes (4k, 16k, 64k, 256k, 1M), all random, where each job is 
+run for 60 seconds.
 
-Contact
--------
-- Irad Cohen, irad.cohen@sap.com
-- Aidan Shribman, aidan.shribman@sap.com
-- Mark Kemel, mark.kemel@sap.com
+    pio perf -t random:read,write:4k,16k,64k,256k,1M -o output_file -l 60 \
+	    fio /mnt/storage node01 node02 node03
+
+- "/mnt/storage" is a directory that is accessible on all slave nodes (does not
+   have to be shared).
+
+
+In order to plot the data to a nice graph, run:
+
+    pio plot -a .
+	gnuplot plot.gp
+
+#### Durability Scenario
+Initialize a data file that lays on the evaluated storage system. Mess around
+with the system (power shortage, faulty disks, etc.), then check that the data
+is not corrupted.
+
+    pio dur init /mnt/storage
+
+    pio dur validate /mnt/storage
+
