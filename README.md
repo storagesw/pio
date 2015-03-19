@@ -60,6 +60,6 @@ Development Mode
 
 Contact
 -------
-Irad Cohen, irad.cohen@sap.com
-Aidan Shribman, aidan.shribman@sap.com
-Mark Kemel, mark.kemel@sap.com
+- Irad Cohen, irad.cohen@sap.com
+- Aidan Shribman, aidan.shribman@sap.com
+- Mark Kemel, mark.kemel@sap.com
