@@ -1,6 +1,3 @@
-TODO
-====
-
 - PIO: make fio/fstest in args dynamic (find drivers by myself).
 - Config: make LIB_PATH not relative.
 - Perf: always make a first "pseudo-run" to generate the files.
