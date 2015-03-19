@@ -46,6 +46,7 @@ Setup
 
 - *OPTIONAL* Installing FSTEST - contact SAP for the following files: fstest, 
     libhdbbasis.so, libhdblttbase.so, libhdbversion.so and run:
+
         mkdir -p lib/fstest
         cp fstest lib/fstest/
         cp libhdb*.so lib/fstest/
