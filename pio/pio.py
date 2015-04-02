@@ -66,10 +66,6 @@ def parse_args():
             help='Add per node average to plot')
     a('-s', '--stream_avg', action='store_true',
             help='Add per stream average to plot')
-#    a('-d', '--data_kpi', action='store_true',
-#            help='Add HANA data volume KPI to plot')
-#    a('-l', '--log_kpi', action='store_true',
-#            help='Add HANA log volume KPI to plot')
     a('path', help='Paths to directory to plot')
 
     p_dur = subparsers.add_parser('dur')
