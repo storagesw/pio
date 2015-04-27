@@ -1,4 +1,5 @@
 from ClusterShell.Task import task_self
+from collections import defaultdict
 import argparse
 
 import drivers
@@ -12,15 +13,14 @@ class Test(object):
         self.results = []
 
 class TestSuite(object):
-    def __init__(self, driver, path, limit, nodes, streams, tests):
+    def __init__(self, driver, limit, streams, nodes_paths, tests):
         try:
             self.driver = getattr(drivers, driver)
         except AttributeError:
             raise argparse.ArgumentTypeError("Driver not found.")
-        self.path = path
         self.limit = limit
-        self.nodes = nodes
         self.streams = streams
+        self.nodes_paths = parse_nodes_paths(nodes_paths)
         self.tests = tests
 
     def run_tests(self):
@@ -30,10 +30,12 @@ class TestSuite(object):
             self.update_test_results(t)
 
     def run_test(self, test):
-        for i in range(self.streams):
-            cmd = self.driver.gen_cmd(test, i, self.limit, self.path)
-            cfg.dprint("Listing: " + cmd)
-            task.shell(cmd, nodes=','.join(self.nodes)) 
+        for node in self.nodes_paths:
+            for path in self.nodes_paths[node]:
+                for i in range(self.streams):
+                    cmd = self.driver.gen_cmd(test, i, self.limit, path)
+                    cfg.dprint("Listing: " + cmd)
+                    task.shell(cmd, nodes=node) 
         cfg.dprint("Running above commands.")
         task.resume()
 
@@ -75,6 +77,24 @@ def parse_tests(tests):
                    "argument should be specified between each colon.".format(
                        ','.join(cfg.BS_LIST)))
             raise argparse.ArgumentTypeError(msg)
+
+def parse_nodes_paths(nodes_paths_list):
+    nodes_paths_dict = defaultdict(list)
+    for np in nodes_paths_list:
+        try:
+            params = np.split(':')
+            nodes = params[0].split(',')
+            paths = params[1].split(',')
+            for n in nodes:
+                for p in paths:
+                    nodes_paths_dict[n].append(p)
+        except Exception: # Which exact exception?
+            msg = ("Invalid nodes and/or paths: {np}\n"
+                   "Must be of the format: " 
+                   "\'node01,node02,..,nodeXX:/path/to/dir1,..,/path_to/dirX\'"
+                   "".format(np=np))
+            raise argparse.ArgumentTypeError(msg)
+    return nodes_paths_dict
 
 def lim(indicator, driver, limit):
     if limit is not None:

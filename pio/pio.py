@@ -17,8 +17,8 @@ def main():
 
 def cmd_perf(r):
     limit = perf.lim(r.test_list[0], r.driver, r.limit)
-    ts = perf.TestSuite(r.driver, r.path, limit, r.nodes, r.streams, 
-            r.test_list[1])
+    ts = perf.TestSuite(r.driver, limit, r.streams, r.nodes_paths,
+        r.test_list[1])
     ts.run_tests()
     with open(r.out + '.pio', 'w') as f:
         ts.write_report(f)
@@ -44,19 +44,22 @@ def parse_args():
     p_run = subparsers.add_parser('perf')
     a = p_run.add_argument
     a('-t', dest='test_list', type=perf.parse_tests, default='full',
-      help="'full' for a complete benchmark, 'quick' for a quick one, "
-           "and 'random,sequential:read,write:{0}' (it's possible to "
-           "remove some options) for a custom test.".format(
-               ','.join(cfg.BS_LIST)))
+        help="'full' for a complete benchmark, 'quick' for a quick one, "
+             "and 'random,sequential:read,write:{0}' (it's possible to "
+             "remove some options) for a custom test.".format(
+            ','.join(cfg.BS_LIST)))
     a('driver', choices=['fio', 'fstest'],
       help='Benchmark using fio or fstest')
-    a('path', help='Mount point of examined filesystem')
     a('-o', dest='out', default='/dev/stdout', 
         help='Path to output file. Default: stdout')
-    a('nodes', nargs='+', help='Addresses of the target nodes')
     a('-l', dest='limit', help='Test limit as defined by the driver')
     a('-s', dest='streams', type=int, default=1, 
         help="Number of streams on each node")
+#    a('path', help='Mount point of examined filesystem')
+    a('nodes_paths', nargs='+', 
+        help='Addresses of the target nodes alongside paths to run IO against '
+             'in each node. Space-separated list of values of the format '
+             '\'node01,node02,..,nodeXX:/path/to/dir1,..,/path_to/dirX\'')
 
     p_plot = subparsers.add_parser('plot')
     a = p_plot.add_argument 
