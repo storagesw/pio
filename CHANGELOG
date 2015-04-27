@@ -1,3 +1,7 @@
+## 1.0.3 (2015-04-27)
+
+- can now use different directories on different nodes to issue IO
+
 ## 1.0.2 (2015-03-19)
 
 - initial public version.

@@ -61,10 +61,11 @@ different block sizes (4k, 16k, 64k, 256k, 1M), all random, where each job is
 run for 60 seconds.
 
     pio perf -t random:read,write:4k,16k,64k,256k,1M -o output_file -l 60 \
-        fio /mnt/storage node01 node02 node03
+        fio node01,node02,node03:/mnt/storage node02:/mnt/other-storage
 
-- "/mnt/storage" is a directory that is accessible on all slave nodes (does not
-   have to be shared).
+- "/mnt/storage" is a directory that is accessible on slave nodes node01, 
+	node02 and node03 (does not have to be shared).
+- "/mnt/other-storage" is a directory that is accessible on slave nodes node02. 
 
 
 In order to plot the data to a nice graph, run:
