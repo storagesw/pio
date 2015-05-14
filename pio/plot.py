@@ -28,7 +28,7 @@ class RunResults(object):
             l_cnt = 0
             for line in f:
                 l = line.split()
-                self.results[l[0]][l[1]][l[2]] += float(l[4])
+                self.results[l[0]][l[1]][l[2].lower()] += float(l[4])
                 nodes.add(l[3])
                 tests.add(str((l[0], l[1], l[2])))
                 l_cnt += 1
