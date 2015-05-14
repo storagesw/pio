@@ -1,4 +1,5 @@
 from ClusterShell.Task import task_self
+csh = task_self()
 from collections import defaultdict
 import argparse
 
@@ -11,6 +12,11 @@ class Test(object):
         self.bs = blocksize
         self.d = direction
         self.results = []
+    def __str__(self):
+        return '<object of ' + str(self.__class__) + ' with ' \
+            + 'order=' + self.o + ', ' \
+            + 'diretion=' + self.d + ', ' \
+            + 'blocksize=' + self.bs + '>'
 
 class TestSuite(object):
     def __init__(self, driver, limit, streams, nodes_paths, tests):
@@ -22,6 +28,11 @@ class TestSuite(object):
         self.streams = streams
         self.nodes_paths = parse_nodes_paths(nodes_paths)
         self.tests = tests
+    def __str__(self):
+        return '<object of ' + str(self.__class__) + ' with ' \
+            + 'limit=' + self.limit + ', ' \
+            + 'streams=' + self.streams + ', ' \
+            + 'paths=' + self.nodes_paths + '>'
 
     def run_tests(self):
         for t in self.tests:
@@ -35,13 +46,14 @@ class TestSuite(object):
                 for i in range(self.streams):
                     cmd = self.driver.gen_cmd(test, i, self.limit, path)
                     cfg.dprint("Listing: " + cmd)
-                    task.shell(cmd, nodes=node) 
+                    csh.shell(cmd, nodes=node) 
         cfg.dprint("Running above commands.")
-        task.resume()
+        csh.resume()
 
     def update_test_results(self, test):
-        for buf, nodes in task.iter_buffers():
+        for buf, nodes in csh.iter_buffers():
             test_out = str(buf)
+            assert test_out != 'Permission denied (publickey,keyboard-interactive).'
             cfg.dprint(test_out)
             bw = self.driver.parse_bw(test_out)
             test.results += [(n, bw) for n in nodes]
@@ -103,5 +115,3 @@ def lim(indicator, driver, limit):
                 'q': {'fio': 6, 'fstest': '64M'},
                 '': {'fio': 60, 'fstest': '1G'}}
     return lim_dict[indicator][driver]
-
-task = task_self()

@@ -18,6 +18,14 @@ Setup
         wget --no-check-certificate https://bootstrap.pypa.io/ez_setup.py    
         python ez_setup.py --insecure
 
+- Install Cluster Shell
+
+        wget http://sourceforge.net/projects/clustershell/files/clustershell/1.6/clustershell-1.6.tar.gz/download
+        tar xvfz clustershell-1.6.tar.gz
+        cd clustershell-1.6
+        python setup.py install
+        cp -r conf /etc/clustershell
+
 - Setup no password SSH to all slave nodes (in this example they are named 
   node01, node02 and node03):
 
@@ -38,8 +46,9 @@ Setup
         apt-get install libaio libaio-devel         # debian, ubuntu
 
         # install latest FIO version
-        git clone http://git.kernel.dk/fio.git
-        cd fio
+        wget -O fio-master.zip https://github.com/axboe/fio/archive/master.zip
+        unzip fio-master.zip
+        cd fio-master
         ./configure
         make
         make install

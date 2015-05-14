@@ -33,7 +33,9 @@ bw_re = re.compile('bw=(.*?),')
 
 def parse_bw(test_out):
     """ returns the bw from cmd's output """
-    return to_kbps(bw_re.search(test_out).group(1))
+    found = bw_re.search(test_out)
+    assert found != None
+    return to_kbps(found.group(1))
 
 def validate_limit(limit):
     """ validates the given limit to work with the driver """
