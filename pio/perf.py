@@ -68,7 +68,7 @@ def parse_tests(tests):
             orders = params[0].split(',')
             directions = params[1].split(',')
             block_sizes = params[2].split(',')
-            return '', [Test(o, d, bs) for o in orders
+            return '', [Test(o, d, bs.lower()) for o in orders
                                        for d in directions
                                        for bs in block_sizes]
         except Exception: # Which exact exception?

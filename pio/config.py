@@ -1,7 +1,7 @@
 LIB_PATH = "lib"
 
 README_FILE = "README"
-BS_LIST = ["4k", "16k", "64k", "256k", "1M"]
+BS_LIST = ["4k", "16k", "64k", "256k", "1m"]
 
 FILE_EXT = (".pio")
 PLOT_FNAME = "plot.gp"
