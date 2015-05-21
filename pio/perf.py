@@ -1,10 +1,12 @@
 from ClusterShell.Task import task_self
-csh = task_self()
 from collections import defaultdict
 import argparse
 
 import drivers
 import config as cfg
+
+csh = task_self()
+csh.set_info("fanout", cfg.SSH_FANOUT)
 
 class Test(object):
     def __init__(self, order, direction, blocksize):
@@ -54,6 +56,7 @@ class TestSuite(object):
         for buf, nodes in csh.iter_buffers():
             test_out = str(buf)
             assert test_out != 'Permission denied (publickey,keyboard-interactive).'
+            cfg.dprint('Nodes {n} returned:'.format(n=','.join(nodes)))
             cfg.dprint(test_out)
             bw = self.driver.parse_bw(test_out)
             test.results += [(n, bw) for n in nodes]

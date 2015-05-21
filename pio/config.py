@@ -12,6 +12,9 @@ DUR_SIZE = 1*1024*1024*1024 # 1GB
 
 DEBUG = False
 
+# Max jobs that can run simultaneously
+SSH_FANOUT = 512 
+
 def dprint(s):
     if DEBUG:
         print s
