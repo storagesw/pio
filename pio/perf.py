@@ -45,10 +45,9 @@ class TestSuite(object):
     def run_test(self, test):
         for node in self.nodes_paths:
             for path in self.nodes_paths[node]:
-                for i in range(self.streams):
-                    cmd = self.driver.gen_cmd(test, i, self.limit, path)
-                    cfg.dprint("Listing: " + cmd)
-                    csh.shell(cmd, nodes=node) 
+                cmd = self.driver.gen_cmd(test, self.streams, self.limit, path)
+                cfg.dprint("Listing: " + cmd)
+                csh.shell(cmd, nodes=node) 
         cfg.dprint("Running above commands.")
         csh.resume()
 

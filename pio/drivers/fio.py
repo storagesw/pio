@@ -1,8 +1,8 @@
 import re
 
-def gen_cmd(test, stream_num, limit, path):
+def gen_cmd(test, num_streams, limit, path):
     """ generate a command to run from shell and print the results """
-    cmd = ('fio --name=`hostname`_{s} '
+    cmd = ('fio --name=`hostname` '
         '--rw={rw} '
         '--bs={bs} '
         '--ramp_time={ramp_time} '
@@ -15,7 +15,9 @@ def gen_cmd(test, stream_num, limit, path):
         '--time_based '
         '--refill_buffers '
         '--filesize=1G '
-        '--directory={path}'.format(s=stream_num, rw=test.d, bs=test.bs, 
+        '--numjobs={s} '
+        '--group_reporting '
+        '--directory={path}'.format(s=num_streams, rw=test.d, bs=test.bs, 
             ramp_time=int(limit)/3, runtime=int(limit)*2/3, path=path))
     return cmd
 
