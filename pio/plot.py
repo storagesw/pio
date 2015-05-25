@@ -67,7 +67,7 @@ set xtics ('{0}' 0, '{1}' 1, '{2}' 2, '{3}' 3, '{4}' 4)
 set ylabel 'MB/s'
 set xtics nomirror
 set datafile missing '?'
-set offset graph 0.1, graph 0.1, graph 0.1, graph 0
+set offset 1, 1, 0, 0
 set grid ytics\n
 """.format(*(cfg.BS_LIST)))
         for o, d in [('r', 'r'), ('r', 'w'), ('s', 'r'), ('s', 'w')]:
@@ -84,6 +84,7 @@ set grid ytics\n
                 if args.stream_avg:
                     p.write("'-' using 0:($1/1024) with linespoints title "
                             "'{name}_stream_avg', ".format(name=rr.name))
+            p.seek(-2, 1) # seek back 2 chars to remove the trailing ','
             p.write("\n")
             for rr in rr_list:
                 if args.aggr:
