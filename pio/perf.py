@@ -61,7 +61,7 @@ class TestSuite(object):
             test.results += [(n, bw) for n in nodes]
 
     def write_report(self, f):
-        f.write('ORDER DIRECTION BS_KB/s NODE BW\n')
+        f.write('ORDER DIRECTION BS NODE BW_KB/s\n')
         for t in self.tests:
             for n, bw in t.results: 
                 f.write('{o} {d} {bs:<4} {n:<10} {bw}\n'.format(o=t.o[0],
